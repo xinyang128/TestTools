@@ -130,27 +130,35 @@ class TcpClient {
      
      - returns: 返回实际读取char数组
      */
-    func read(len:Int)->NSData?{
+    func read(len:Int)->(Bool,NSData){
+        var data : NSData = NSData()
+        var ok : Bool = false
         if let fd:Int32 = self.fd{
             var buff:[UInt8] = [UInt8](count:len,repeatedValue:0x0)
             let readLen:Int32=c_socket_read(fd, buff: &buff, len: Int32(len))
             if (readLen > 0){
-                
-                return NSData(bytes: buff, length: Int(readLen))
+                ok = true
+                data = NSData(bytes: buff, length: Int(readLen))
                 
             }else if(readLen == 0){
-                
-                //                print("接收已完成,ret=\(readLen)")
+                data = "接收已完成".dataUsingEncoding(NSUTF8StringEncoding)!
             }else if(readLen < 0 ){
-                print("数据接收异常:错误(\(readLen))")
+                switch readLen{
+                case -54:
+                    data = "Connection reset by peer,错误码:\(-1*readLen)".dataUsingEncoding(NSUTF8StringEncoding)!
+                    break
+                default:
+                    data = "read失败,错误码:\(readLen)".dataUsingEncoding(NSUTF8StringEncoding)!
+                }
+                
             }
             
+        }else{
+            data = "socket无效".dataUsingEncoding(NSUTF8StringEncoding)!
         }
-        return nil
+        return (ok,data)
     }
 }//class end
-
-
 
 
 

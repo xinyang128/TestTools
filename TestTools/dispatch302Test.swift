@@ -20,7 +20,7 @@ class DispatchTest : TestMethod{
      
      - returns: 返回跳转后的Location地址
      */
-    func request(url : String) ->String {
+    func requestForLocation(url : String) ->String {
         //生成请求实例
         let client = TcpClient()
         let http = Request(method: .GET, url: url)
@@ -42,17 +42,23 @@ class DispatchTest : TestMethod{
         }
         //发送成功,阻塞等待返回数据,小文件
         let buffLen = 1024
-        let ret = client.read(buffLen)
-        if(ret != nil){
-            //解析返回数据,必须为UTF8
-            let resp = Respone(respone:ret!)
+        var ret:NSData
+        (ok, ret) = client.read(buffLen)
+        if !ok{
             client.close()
-            let loc = resp.headers["Location"]
-            let httpCode = "http 返回code: \(resp.code)"
-            return (loc != nil) ? loc! : httpCode
+            return String(NSString(data: ret, encoding: NSUTF8StringEncoding)!)
         }
+
+        //解析返回数据,必须为UTF8
+        let resp = Respone(respone:ret)
         client.close()
-        return "client.read失败,ret=\(ret)"
+        let loc = resp.headers["Location"]
+        let httpCode = "http 返回code: \(resp.code)"
+        client.close()
+        return (loc != nil) ? loc! : httpCode
+
+        
+
     }//request end
     /**
     传入返回的location,以字典形式汇总
@@ -92,7 +98,7 @@ class DispatchTest : TestMethod{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                 
                 //请求调度
-                let location = dispatch.request(url)//"http://175.6.0.48/live/hash/rtmp://dlrtmp.cdn.zhanqi.tv/zqlive/62147_q1e9?srcip=202.96.143.134")
+                let location = dispatch.requestForLocation(url)//"http://175.6.0.48/live/hash/rtmp://dlrtmp.cdn.zhanqi.tv/zqlive/62147_q1e9?srcip=202.96.143.134")
                 
                 dispatch_async(dispatch_get_main_queue(), {
                     //结果汇总入字典
@@ -100,7 +106,7 @@ class DispatchTest : TestMethod{
                     //最后一个线程输出结果
                     if (++num == lopnum){
                         let t = NSDate().timeIntervalSince1970 - start
-                        let result =  "\(String(dispatch.result))\n耗时: \(String(t)) \n"
+                        let result =  "\(String(dispatch.result)) 耗时: \(String(t)) \n"
                         //输出界面
                         sprint(result)
                     }

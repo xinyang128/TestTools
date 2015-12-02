@@ -14,7 +14,7 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <fcntl.h>
-
+#include <errno.h>
 
 
 /**
@@ -77,7 +77,12 @@ int socket_close(int socketfd){
     return close(socketfd);
 }
 int socket_read(int socketfd,char *data,int len){
-    return (int)read(socketfd,data,len);
+//    return (int)read(socketfd,data,len);
+    int i = (int)read(socketfd,data,len);
+    if (i==-1) {
+        return -1*errno;
+    }
+    return i;
 }
 int socket_send(int socketfd,const char *data,int len){
     int bytesWrite=0;

@@ -15,6 +15,7 @@
 		FE2153E71C0D66AD00414BB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE2153E51C0D66AD00414BB8 /* Main.storyboard */; };
 		FE2153F21C0D66AD00414BB8 /* TestToolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2153F11C0D66AD00414BB8 /* TestToolsTests.swift */; };
 		FE2153FD1C0D66AD00414BB8 /* TestToolsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2153FC1C0D66AD00414BB8 /* TestToolsUITests.swift */; };
+		FEA9BE151C0EB6A900FECCFA /* StunTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA9BE141C0EB6A900FECCFA /* StunTest.swift */; };
 		FEC49B2F1C0D8F6E009DE043 /* socket.c in Sources */ = {isa = PBXBuildFile; fileRef = FEC49B2D1C0D8F6E009DE043 /* socket.c */; };
 		FEC49B311C0D8FBE009DE043 /* TcpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC49B301C0D8FBE009DE043 /* TcpClient.swift */; };
 		FEC49B331C0D8FD5009DE043 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC49B321C0D8FD5009DE043 /* HTTP.swift */; };
@@ -55,6 +56,7 @@
 		FE2153F81C0D66AD00414BB8 /* TestToolsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestToolsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE2153FC1C0D66AD00414BB8 /* TestToolsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestToolsUITests.swift; sourceTree = "<group>"; };
 		FE2153FE1C0D66AD00414BB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEA9BE141C0EB6A900FECCFA /* StunTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StunTest.swift; sourceTree = "<group>"; };
 		FEC49B2C1C0D8F68009DE043 /* TestTools-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TestTools-Bridging-Header.h"; sourceTree = "<group>"; };
 		FEC49B2D1C0D8F6E009DE043 /* socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = socket.c; sourceTree = "<group>"; };
 		FEC49B2E1C0D8F6E009DE043 /* socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket.h; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				FEC49B2C1C0D8F68009DE043 /* TestTools-Bridging-Header.h */,
 				FEC49B301C0D8FBE009DE043 /* TcpClient.swift */,
 				FEC49B321C0D8FD5009DE043 /* HTTP.swift */,
+				FEA9BE141C0EB6A900FECCFA /* StunTest.swift */,
 			);
 			name = tools;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				FE2153DF1C0D66AD00414BB8 /* ViewController.swift in Sources */,
 				FE2153DD1C0D66AD00414BB8 /* AppDelegate.swift in Sources */,
 				FEC49B311C0D8FBE009DE043 /* TcpClient.swift in Sources */,
+				FEA9BE151C0EB6A900FECCFA /* StunTest.swift in Sources */,
 				FEC49B331C0D8FD5009DE043 /* HTTP.swift in Sources */,
 				FEC49B2F1C0D8F6E009DE043 /* socket.c in Sources */,
 				FEC49B351C0D900D009DE043 /* dispatch302Test.swift in Sources */,
