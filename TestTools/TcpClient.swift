@@ -17,7 +17,9 @@ import Foundation
 class TcpClient {
     
     var fd:Int32?
-    
+    deinit{
+        self.close()
+    }
     /**
      连接特定的服务器
      
@@ -130,33 +132,33 @@ class TcpClient {
      
      - returns: 返回实际读取char数组
      */
-    func read(len:Int)->(Bool,NSData){
-        var data : NSData = NSData()
-        var ok : Bool = false
+    func read(len:Int)->(NSData?,String?){
+        var data : NSData?
+        var error : String?
         if let fd:Int32 = self.fd{
             var buff:[UInt8] = [UInt8](count:len,repeatedValue:0x0)
             let readLen:Int32=c_socket_read(fd, buff: &buff, len: Int32(len))
             if (readLen > 0){
-                ok = true
                 data = NSData(bytes: buff, length: Int(readLen))
                 
             }else if(readLen == 0){
-                data = "接收已完成".dataUsingEncoding(NSUTF8StringEncoding)!
+                //data为空
+                data = NSData()
             }else if(readLen < 0 ){
                 switch readLen{
                 case -54:
-                    data = "Connection reset by peer,错误码:\(-1*readLen)".dataUsingEncoding(NSUTF8StringEncoding)!
+                    error = "ERROR:Connection reset by peer,错误码:\(-1*readLen)"
                     break
                 default:
-                    data = "read失败,错误码:\(readLen)".dataUsingEncoding(NSUTF8StringEncoding)!
+                    error = "ERROR:read失败,错误码:\(readLen)"
                 }
                 
             }
             
         }else{
-            data = "socket无效".dataUsingEncoding(NSUTF8StringEncoding)!
+            error = "ERROR:socket无效"
         }
-        return (ok,data)
+        return (data,error)
     }
 }//class end
 

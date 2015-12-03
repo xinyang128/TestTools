@@ -109,9 +109,8 @@ class Request {
 class Respone{
     
     var headers = Dictionary<String,String>()
-    //    var body:String?
     var code:Int
-    var description:String?
+    var description:String
     var body:NSMutableData = NSMutableData()
     /**
      将respone的内容解析后对应到Respone类的成员
@@ -122,68 +121,80 @@ class Respone{
      */
     init(respone :NSData){
         //回复数据转String
-        let tmp = NSString(data: respone, encoding: NSUTF8StringEncoding)
-        if tmp==nil{
+        let tmp = respone.toString()//NSString(data: respone, encoding: NSUTF8StringEncoding)
+        if tmp==""{
             self.code = -1
             self.description = "http数据无法识别"
-            return
-        }
-        
-        let respString = String(tmp!)
-        //截取http头部分
-        let endFlagRange = respString.rangeOfString("\r\n\r\n")
-        if (endFlagRange == nil){
-            self.code = -2
-            self.description = "http数据没有\\r\\n\\r\\n结尾"
-            return
-
-        }
-        //提取出http头
-        let httpHeadString = respString.substringToIndex(endFlagRange!.startIndex)
-        //提取出首行
-        let firstFlag = httpHeadString.rangeOfString("\r\n")
-        let firstRowString = httpHeadString.substringToIndex(firstFlag!.startIndex)
-        //提取其他行
-        let headersRowString = httpHeadString.substringFromIndex(firstFlag!.endIndex)
-        //首行按空格分隔为数组
-        let firstRowArray = firstRowString.componentsSeparatedByString(" ")
-        //http状态码和描述
-        if let code = Int(firstRowArray[1]){
-            self.code = code
         }else{
-            self.code = -3
-            self.description = "http code invaild:\(firstRowString)"
-            return
-        }
-        self.description = firstRowArray[2]
-        
-        //使用"\r\n"分隔字符串,保存数组
-        let rows = headersRowString.componentsSeparatedByString("\r\n")
-        for row in rows{
             
-            //使用":"分隔字符串,保存字典
-            let keyRange = row.rangeOfString(":")
-            if(keyRange == nil){
-                self.code = -4
-                self.description = "http数据headers没有':':\(row) ----"
-                return
+            let respString = tmp
+            //截取http头部分
+            let endFlagRange = respString.rangeOfString("\r\n\r\n")
+            if (endFlagRange == nil){
+                self.code = -2
+                self.description = "http数据没有\\r\\n\\r\\n结尾"
+            }else{
+                //提取出http头,不为nil
+                let httpHeadString = respString.substringToIndex(endFlagRange!.startIndex)
+                //提取出首行
+                let firstFlag = httpHeadString.rangeOfString("\r\n")
+                
+                //不为nil
+                let firstRowString = httpHeadString.substringToIndex(firstFlag!.startIndex)
+                //提取其他行
+                let headersRowString = httpHeadString.substringFromIndex(firstFlag!.endIndex)
+                //首行按空格分隔为数组
+                let firstRowArray = firstRowString.componentsSeparatedByString(" ")
+                if firstRowArray.count<3{
+                    self.code = -4
+                    self.description = "http 首行格式错误:\(firstRowArray)"
+                    
+                }else{
+                    //http状态码和描述
+                    if let code = Int(firstRowArray[1]){
+                        self.code = code
+                        self.description = firstRowArray[2]
+                        
+                        //使用"\r\n"分隔字符串,保存数组
+                        let rows = headersRowString.componentsSeparatedByString("\r\n")
+                        for row in rows{
+                            
+                            //使用":"分隔字符串,保存字典
+                            let keyRange = row.rangeOfString(":")
+                            if(keyRange == nil){
+                                self.code = -4
+                                self.description = "http数据headers没有':':\(row) ----"
+                                
+                            }else{
+                                var key = row.substringToIndex(keyRange!.startIndex)
+                                var vaule = row.substringFromIndex(keyRange!.endIndex)
+                                //去掉左右空格
+                                key = key.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                                vaule = vaule.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                                
+                                self.headers[key] = vaule
+
+                            }
+                       }
+                        //提取出body
+                        let httpBody = respString.substringFromIndex(endFlagRange!.endIndex)
+                        if !httpBody.isEmpty{
+                            //有body
+                            self.body.appendData(httpBody.dataUsingEncoding(NSUTF8StringEncoding)!)
+                            
+                        }
+
+                    }else{
+                        self.code = -3
+                        self.description = "http code invaild:\(firstRowString)"
+                    
+                    }
+    
+                }
+
             }
-            var key = row.substringToIndex(keyRange!.startIndex)
-            var vaule = row.substringFromIndex(keyRange!.endIndex)
-            //去掉左右空格
-            key = key.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            vaule = vaule.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            
-            self.headers[key] = vaule
         }
-        //提取出body
-        let httpBody = respString.substringFromIndex(endFlagRange!.endIndex)
-        if !httpBody.isEmpty{
-            //有body
-            self.body.appendData(httpBody.dataUsingEncoding(NSUTF8StringEncoding)!)
-            
-        }
-        
+
     }//init end
     
     /**

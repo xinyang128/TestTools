@@ -38,11 +38,14 @@
       <sourceFolder url="file://$MODULE_DIR$/TestTools/Base.lproj/Main.storyboard" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/TestTools/dispatch302Test.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/TestTools/HTTP.swift" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/TestTools/HttpClient.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/TestTools/Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/TestTools/multithread.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/TestTools/socket.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/TestTools/socket.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/TestTools/StunTest.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/TestTools/TcpClient.swift" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/TestTools/Test.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/TestTools/TestTools-Bridging-Header.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/TestTools/TestTools.xcdatamodeld/TestTools.xcdatamodel" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/TestTools/ViewController.swift" isTestSource="false" />

@@ -46,7 +46,7 @@ int socket_connect(const char *host,int port,int timeout){
     sa.sin_family = ph->h_addrtype;
     sa.sin_port = htons(port);
     sockfd = socket(ph->h_addrtype, SOCK_STREAM, 0);
-    //设置非阻塞connect连接
+    //设置非阻塞socket连接
     socket_set_block(sockfd,0);
     connect(sockfd, (struct sockaddr *)&sa, sizeof(sa));
     fd_set          fdwrite;
@@ -67,6 +67,7 @@ int socket_connect(const char *host,int port,int timeout){
         if(error!=0){
             return -4;//connect fail
         }
+        //设置socket阻塞
         socket_set_block(sockfd, 1);
         int set = 1;
         setsockopt(sockfd, SOL_SOCKET, SO_NOSIGPIPE, (void *)&set, sizeof(int));
@@ -77,7 +78,6 @@ int socket_close(int socketfd){
     return close(socketfd);
 }
 int socket_read(int socketfd,char *data,int len){
-//    return (int)read(socketfd,data,len);
     int i = (int)read(socketfd,data,len);
     if (i==-1) {
         return -1*errno;

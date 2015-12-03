@@ -685,10 +685,10 @@
                                             <animations/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="minSize" width="497" height="250"/>
-                                            <size key="maxSize" width="497" height="10000000"/>
+                                            <size key="maxSize" width="499" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <size key="minSize" width="497" height="250"/>
-                                            <size key="maxSize" width="497" height="10000000"/>
+                                            <size key="maxSize" width="499" height="10000000"/>
                                         </textView>
                                     </subviews>
                                     <animations/>
@@ -763,6 +763,7 @@
                         <animations/>
                     </view>
                     <connections>
+                        <outlet property="button" destination="9VE-Ld-Uh7" id="mMT-Md-K9q"/>
                         <outlet property="popUpButton" destination="PEk-gH-noI" id="DPL-Hp-5TN"/>
                         <outlet property="text" destination="GA6-cw-nec" id="SIe-Fr-MCN"/>
                         <outlet property="threadNum" destination="FUg-le-KyK" id="Hbn-5C-PYH"/>
